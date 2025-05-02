@@ -1,7 +1,8 @@
 #pragma once
-#include <string>
+
 #include <cstring>
 #include <memory>
+#include <string>
 
 namespace type {
 

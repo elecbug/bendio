@@ -1,6 +1,8 @@
 #pragma once
-#include <string>
+
 #include "type/bytes.h"
+
+#include <string>
 
 namespace net {
 

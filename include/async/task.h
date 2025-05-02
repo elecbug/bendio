@@ -1,10 +1,11 @@
 #pragma once
-#include <future>
-#include <thread>
-#include <memory>
-#include <functional>
+
 #include <atomic>
 #include <chrono>
+#include <future>
+#include <functional>
+#include <memory>
+#include <thread>
 
 namespace async {
 
@@ -62,4 +63,4 @@ namespace async {
 
 }
 
-#include "async/task.tpp"
+#include "task.tpp"

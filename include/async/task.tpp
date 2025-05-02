@@ -1,5 +1,7 @@
 #pragma once
+
 #include "task.h"
+
 #include <exception>
 #include <iostream>
 

@@ -1,10 +1,11 @@
-#include "net/tcp_server.h"
 #include "net/tcp_client.h"
-#include <unistd.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
+#include "net/tcp_server.h"
+
 #include <arpa/inet.h>
 #include <iostream>
+#include <netinet/in.h>
+#include <sys/socket.h>
+#include <unistd.h>
 
 namespace net {
 

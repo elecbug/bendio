@@ -1,8 +1,9 @@
 #pragma once
-#include <thread>
+
 #include <functional>
-#include <mutex>
 #include <memory>
+#include <mutex>
+#include <thread>
 
 namespace async {
 
@@ -31,4 +32,4 @@ namespace async {
 
 }
 
-#include "async/thread.tpp"
+#include "thread.tpp"
