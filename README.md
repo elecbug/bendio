@@ -1,2 +1,2 @@
-# cpp-bend
+# Bend/IO
 C++ backend(threading and networking) library

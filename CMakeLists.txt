@@ -1,10 +1,19 @@
 cmake_minimum_required(VERSION 3.14)
-project(MyTcpSdk)
+project(bendio)
 
 set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-include_directories(include)
+include_directories(${PROJECT_SOURCE_DIR}/include)
 
-file(GLOB_RECURSE ALL_SRC CONFIGURE_DEPENDS "src/*.cpp")
-add_executable(myapp main.cpp ${ALL_SRC})
+file(GLOB_RECURSE SRC_FILES CONFIGURE_DEPENDS src/*.cpp)
+
+add_library(bendio STATIC ${SRC_FILES})
+target_include_directories(bendio PUBLIC ${PROJECT_SOURCE_DIR}/include)
+
+add_executable(myapp main.cpp)
+target_link_libraries(myapp PRIVATE bendio)
+
+### You can want to use: ###
+#
+# add_subdirectory(cpp-bendio EXCLUDE_FROM_ALL)
+# target_link_libraries(my_other_target PRIVATE bendio)
