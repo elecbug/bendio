@@ -8,31 +8,31 @@
 
 namespace net {
 
-    TcpClient::TcpClient() : sock_fd(-1), port(0) {}
+    TcpClient::TcpClient() : _sock_fd(-1), _port(0) {}
 
-    TcpClient::TcpClient(int socket_fd) : sock_fd(socket_fd) {}
+    TcpClient::TcpClient(int socket_fd) : _sock_fd(socket_fd) {}
 
     void TcpClient::connect(const std::string& host, int port) {
-        this->host = host;
-        this->port = port;
+        _host = host;
+        _port = port;
         
-        connect();
+        inner_connect();
     }
 
     void TcpClient::connect(const net::IPEndPoint ep) {
-        this->host = ep.get_ip();
-        this->port = ep.get_port();
+        _host = ep.get_ip();
+        _port = ep.get_port();
 
-        connect();
+        inner_connect();
     }
 
     void TcpClient::send(net::bytes b) {
-        ::send(sock_fd, b.data(), b.size(), 0);
+        ::send(_sock_fd, b.data(), b.size(), 0);
     }
 
     net::bytes TcpClient::receive() {
         char buffer[1024];
-        ssize_t len = ::recv(sock_fd, buffer, sizeof(buffer), 0);
+        ssize_t len = ::recv(_sock_fd, buffer, sizeof(buffer), 0);
 
         if (len <= 0){
             return net::bytes();
@@ -42,17 +42,17 @@ namespace net {
     }
 
     void TcpClient::close() {
-        if (sock_fd >= 0) {
-            ::close(sock_fd);
+        if (_sock_fd >= 0) {
+            ::close(_sock_fd);
 
-            sock_fd = -1;
+            _sock_fd = -1;
         }
     }
 
-    void TcpClient::connect() {
-        sock_fd = socket(AF_INET, SOCK_STREAM, 0);
+    void TcpClient::inner_connect() {
+        _sock_fd = socket(AF_INET, SOCK_STREAM, 0);
         
-        if (sock_fd < 0) {
+        if (_sock_fd < 0) {
             perror("socket");
 
             return;
@@ -61,15 +61,15 @@ namespace net {
         sockaddr_in server_addr{};
 
         server_addr.sin_family = AF_INET;
-        server_addr.sin_port = htons(port);
+        server_addr.sin_port = htons(_port);
         
-        inet_pton(AF_INET, host.c_str(), &server_addr.sin_addr);
+        inet_pton(AF_INET, _host.c_str(), &server_addr.sin_addr);
 
-        if (::connect(sock_fd, (sockaddr*)&server_addr, sizeof(server_addr)) < 0) {
+        if (::connect(_sock_fd, (sockaddr*)&server_addr, sizeof(server_addr)) < 0) {
             perror("connect");
-            ::close(sock_fd);
+            ::close(_sock_fd);
 
-            sock_fd = -1;
+            _sock_fd = -1;
             
             return;
         }

@@ -14,23 +14,23 @@ namespace async {
 
         std::packaged_task<T()> task([this, bound_func]() {
             try {
-                if (canceled) {
+                if (_canceled) {
                      throw std::runtime_error("Task was cancelled before execution");
                 }
 
                 T result = bound_func();
-                done = true;
+                _done = true;
                 
                 return result;
             } catch (...) {
-                done = true;
+                _done = true;
                 
                 throw;
             }
         });
 
-        fut = task.get_future();
-        t = std::thread(std::move(task));
+        _fut = task.get_future();
+        _t = std::thread(std::move(task));
     }
 
     template<typename T>
@@ -52,41 +52,41 @@ namespace async {
     template<typename T>
     template<typename Rep, typename Period>
     bool Task<T>::get_with_timeout(const std::chrono::duration<Rep, Period>& dur) {
-        return fut.wait_for(dur) == std::future_status::ready;
+        return _fut.wait_for(dur) == std::future_status::ready;
     }
 
     template<typename T>
     T Task<T>::get() {
-        if (t.joinable()) {
-            t.join();
+        if (_t.joinable()) {
+            _t.join();
         } 
 
-        return fut.get();
+        return _fut.get();
     }
 
     template<typename T>
     void Task<T>::join() {
-        if (t.joinable()) {
-            t.join();
+        if (_t.joinable()) {
+            _t.join();
         }
     }
 
     template<typename T>
     void Task<T>::cancel() {
-        if (!done && fut.valid()) {
-            canceled = true;
+        if (!_done && _fut.valid()) {
+            _canceled = true;
         }
     }
 
     template<typename T>
     bool Task<T>::is_done() const {
-        return done;
+        return _done;
     }
 
     template<typename T>
     Task<T>::~Task() {
-        if (t.joinable()) {
-            t.detach();
+        if (_t.joinable()) {
+            _t.detach();
         }
     }
 

@@ -13,21 +13,21 @@ namespace async {
 
         std::packaged_task<void()> task([this, bound_func]() {
             try {
-                if (canceled) {
+                if (_canceled) {
                     throw std::runtime_error("Task was cancelled before execution");
                 }
                 
                 bound_func();
-                done = true;
+                _done = true;
             } catch (...) {
-                done = true;
+                _done = true;
                 
                 throw;
             }
         });
 
-        fut = task.get_future();
-        t = std::thread(std::move(task));
+        _fut = task.get_future();
+        _t = std::thread(std::move(task));
     }
 
     template<typename F, typename... Args>
@@ -48,36 +48,36 @@ namespace async {
 
     template<typename Rep, typename Period>
     bool Task<void>::get_with_timeout(const std::chrono::duration<Rep, Period>& dur) {
-        return fut.wait_for(dur) == std::future_status::ready;
+        return _fut.wait_for(dur) == std::future_status::ready;
     }
 
     void Task<void>::get() {
-        if (t.joinable()) {
-            t.join();
+        if (_t.joinable()) {
+            _t.join();
         }
         
-        fut.get();
+        _fut.get();
     }
 
     void Task<void>::join() {
-        if (t.joinable()) {
-            t.join();
+        if (_t.joinable()) {
+            _t.join();
         }
     }
 
     void Task<void>::cancel() {
-        if (!done && fut.valid()) {
-            canceled = true;
+        if (!_done && _fut.valid()) {
+            _canceled = true;
         }
     }
 
     bool Task<void>::is_done() const {
-        return done;
+        return _done;
     }
 
     Task<void>::~Task() {
-        if (t.joinable()){
-            t.detach();
+        if (_t.joinable()){
+            _t.detach();
         } 
     }
 

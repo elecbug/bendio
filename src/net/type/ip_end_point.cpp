@@ -4,34 +4,34 @@
 
 namespace net {
 
-    IPEndPoint::IPEndPoint() : ip_("0.0.0.0"), port_(0) {}
+    IPEndPoint::IPEndPoint() : _ip("0.0.0.0"), _port(0) {}
 
-    IPEndPoint::IPEndPoint(const std::string& ip, int port) : ip_(ip), port_(port) {}
+    IPEndPoint::IPEndPoint(const std::string& ip, int port) : _ip(ip), _port(port) {}
 
     IPEndPoint::IPEndPoint(const std::string& full) {
         auto pos = full.find(':');
 
         if (pos != std::string::npos) {
-            ip_ = full.substr(0, pos);
-            port_ = std::stoi(full.substr(pos + 1));
+            _ip = full.substr(0, pos);
+            _port = std::stoi(full.substr(pos + 1));
         } else {
-            ip_ = full;
-            port_ = 0;
+            _ip = full;
+            _port = 0;
         }
     }
 
-    IPEndPoint::IPEndPoint(const IPEndPoint& other) : ip_(other.ip_), port_(other.port_) {}
+    IPEndPoint::IPEndPoint(const IPEndPoint& other) : _ip(other._ip), _port(other._port) {}
 
     std::string IPEndPoint::get_ip() const {
-        return ip_;
+        return _ip;
     }
 
     int IPEndPoint::get_port() const {
-        return port_;
+        return _port;
     }
 
     std::string IPEndPoint::to_string() const {
-        return ip_ + ":" + std::to_string(port_);
+        return _ip + ":" + std::to_string(_port);
     }
 
 }

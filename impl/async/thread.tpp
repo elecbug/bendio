@@ -6,7 +6,7 @@ namespace async {
 
     template<typename F, typename... Args>
     Thread::Thread(F&& f, Args&&... args) {
-        task = std::bind(std::forward<F>(f), std::forward<Args>(args)...);
+        _task = std::bind(std::forward<F>(f), std::forward<Args>(args)...);
     }
 
     template<typename F, typename... Args>
@@ -15,14 +15,14 @@ namespace async {
     }
 
     void Thread::start() {
-        t = std::thread([this]() {
-            task();
+        _t = std::thread([this]() {
+            _task();
         });
     }
 
     void Thread::join() {
-        if (t.joinable())
-            t.join();
+        if (_t.joinable())
+            _t.join();
     }
 
     void Thread::lock(std::mutex& mtx, std::function<void()> fn) {
