@@ -1,0 +1,73 @@
+#include "bendio/net/tcp_client.h"
+#include "bendio/net/tcp_server.h"
+
+#include <arpa/inet.h>
+#include <iostream>
+#include <netinet/in.h>
+#include <sys/socket.h>
+#include <unistd.h>
+
+namespace net {
+
+    TcpServer::TcpServer() : _server_fd(-1), _port(0) {}
+
+    void TcpServer::start(int port) {
+        _port = port;
+        _server_fd = socket(AF_INET, SOCK_STREAM, 0);
+        
+        if (_server_fd < 0) {
+            perror("socket");
+
+            return;
+        }
+
+        sockaddr_in server_addr{};
+
+        server_addr.sin_family = AF_INET;
+        server_addr.sin_addr.s_addr = INADDR_ANY;
+        server_addr.sin_port = htons(port);
+
+        int opt = 1;
+        setsockopt(_server_fd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
+
+        if (bind(_server_fd, (sockaddr*)&server_addr, sizeof(server_addr)) < 0) {
+            perror("bind");
+            ::close(_server_fd);
+
+            _server_fd = -1;
+
+            return;
+        }
+
+        if (listen(_server_fd, 5) < 0) {
+            perror("listen");
+            ::close(_server_fd);
+
+            _server_fd = -1;
+
+            return;
+        }
+    }
+
+    TcpClient TcpServer::accept() {
+        sockaddr_in client_addr{};
+        socklen_t client_len = sizeof(client_addr);
+
+        int client_fd = ::accept(_server_fd, (sockaddr*)&client_addr, &client_len);
+
+        if (client_fd < 0) {
+            perror("accept");
+
+            return TcpClient(-1);
+        } else {
+            return TcpClient(client_fd);
+        }
+    }
+
+    std::unique_ptr<async::Task<TcpClient>> TcpServer::accept_async() {
+        return async::Task<TcpClient>::run([this]() {
+            return this->accept();
+        });
+    }
+
+}
