@@ -2,14 +2,13 @@
 #include "async/task.h"
 #include "net/tcp_server.h"
 #include "net/tcp_client.h"
-#include "type/bytes.h"
+#include "net/type/bytes.h"
 
 #include <iostream>
 #include <thread>
 #include <chrono>
 
 using namespace net;
-using namespace type;
 using namespace async;
 
 void task_test() {

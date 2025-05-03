@@ -5,9 +5,12 @@
             "includePath": [
                 "${workspaceFolder}/include",
                 "${workspaceFolder}/include/**",
+                "${workspaceFolder}/impl",
+                "${workspaceFolder}/impl/**",
                 
                 "/usr/bin",
                 "/usr/local/include",
+                
                 "/usr/include",
                 "/usr/include/c++/13",
                 "/usr/include/x86_64-linux-gnu"

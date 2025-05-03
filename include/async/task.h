@@ -9,22 +9,30 @@
 
 namespace async {
 
-    template<typename T> class Task {
+    template<typename T> 
+    class Task {
     public:
-        template<typename F, typename... Args> Task(F&& f, Args&&... args);
+        template<typename F, typename... Args> 
+        Task(F&& f, Args&&... args);
 
-        template<typename F, typename... Args> static std::unique_ptr<Task<T>> run(F&& f, Args&&... args);
+        ~Task();
 
-        template<typename F> auto then(F&& f) -> std::unique_ptr<Task<decltype(f(std::declval<T>()))>>;
-
-        template<typename Rep, typename Period> bool get_with_timeout(const std::chrono::duration<Rep, Period>& dur);
+        template<typename F, typename... Args> 
+        static std::unique_ptr<Task<T>> run(F&& f, Args&&... args);
 
         T get();
+
+        template<typename Rep, typename Period> 
+        bool get_with_timeout(const std::chrono::duration<Rep, Period>& dur);
+
         void join();
-        void cancel();
-        bool is_done() const;
         
-        ~Task();
+        void cancel();
+
+        template<typename F> 
+        auto then(F&& f) -> std::unique_ptr<Task<decltype(f(std::declval<T>()))>>;
+
+        bool is_done() const;
 
     private:
         std::thread t;
@@ -39,20 +47,24 @@ namespace async {
         template<typename F, typename... Args>
         Task(F&& f, Args&&... args);
 
+        ~Task();
+
         template<typename F, typename... Args>
         static std::unique_ptr<Task<void>> run(F&& f, Args&&... args);
-
-        template<typename F>
-        auto then(F&& f) -> std::unique_ptr<Task<decltype(f())>>;
-
+        
+        void get();
+        
         template<typename Rep, typename Period>
         bool get_with_timeout(const std::chrono::duration<Rep, Period>& dur);
 
-        void get();
         void join();
+
         void cancel();
+        
+        template<typename F>
+        auto then(F&& f) -> std::unique_ptr<Task<decltype(f())>>;
+
         bool is_done() const;
-        ~Task();
 
     private:
         std::thread t;
@@ -63,4 +75,5 @@ namespace async {
 
 }
 
-#include "task.tpp"
+#include "async/task.tpp"
+#include "async/task_void.tpp"

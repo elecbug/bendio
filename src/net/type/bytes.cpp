@@ -1,6 +1,6 @@
-#include "type/bytes.h"
+#include "net/type/bytes.h"
 
-namespace type {
+namespace net {
 
     bytes::bytes() : _data(nullptr), _size(0) {}
 
@@ -21,11 +21,11 @@ namespace type {
             cleanup();
             copy_from(other._data, other._size);
         }
+
         return *this;
     }
 
-    bytes::bytes(bytes&& other) noexcept
-        : _data(other._data), _size(other._size) {
+    bytes::bytes(bytes&& other) noexcept : _data(other._data), _size(other._size) {
         other._data = nullptr;
         other._size = 0;
     }
@@ -33,8 +33,10 @@ namespace type {
     bytes& bytes::operator=(bytes&& other) noexcept {
         if (this != &other) {
             cleanup();
+
             _data = other._data;
             _size = other._size;
+            
             other._data = nullptr;
             other._size = 0;
         }
@@ -48,11 +50,13 @@ namespace type {
     void bytes::copy_from(const char* src, size_t len) {
         _size = len;
         _data = new char[_size];
+
         std::memcpy(_data, src, _size);
     }
 
     void bytes::cleanup() {
         delete[] _data;
+        
         _data = nullptr;
         _size = 0;
     }
