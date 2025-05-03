@@ -17,6 +17,10 @@ namespace net {
         // Returns a TcpClient object representing the connected client
         TcpClient accept();
 
+        // Accept an incoming client connection asynchronously
+        // Returns a Task<TcpClient> that completes once a client is connected
+        std::unique_ptr<async::Task<TcpClient>> accept_async();
+
     private:
         int _server_fd;  // File descriptor for the server socket
         int _port;       // Listening port

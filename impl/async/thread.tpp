@@ -21,8 +21,9 @@ namespace async {
     }
 
     void Thread::join() {
-        if (_t.joinable())
+        if (_t.joinable()) {
             _t.join();
+        }
     }
 
     void Thread::lock(std::mutex& mtx, std::function<void()> fn) {

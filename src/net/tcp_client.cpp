@@ -26,6 +26,18 @@ namespace net {
         inner_connect();
     }
 
+    std::unique_ptr<async::Task<void>> TcpClient::connect_async(const std::string& host, int port) {
+        return async::Task<void>::run([this, host, port] {
+            this->connect(host, port);
+        });        
+    }
+
+    std::unique_ptr<async::Task<void>> TcpClient::connect_async(const net::IPEndPoint ep) {
+        return async::Task<void>::run([this, ep] {
+            this->connect(ep);
+        });
+    }
+
     void TcpClient::send(net::bytes b) {
         ::send(_sock_fd, b.data(), b.size(), 0);
     }
@@ -39,6 +51,18 @@ namespace net {
         } else {
             return net::bytes(buffer, static_cast<size_t>(len));
         }
+    }
+
+    std::unique_ptr<async::Task<void>> TcpClient::send_async(net::bytes b) {
+        return async::Task<void>::run([this, b = std::move(b)]() {
+            this->send(std::move(b));
+        });
+    }
+
+    std::unique_ptr<async::Task<net::bytes>> TcpClient::receive_async() {
+        return async::Task<net::bytes>::run([this]() {
+            return this->receive();
+        });
     }
 
     void TcpClient::close() {

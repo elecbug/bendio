@@ -64,4 +64,10 @@ namespace net {
         }
     }
 
+    std::unique_ptr<async::Task<TcpClient>> TcpServer::accept_async() {
+        return async::Task<TcpClient>::run([this]() {
+            return this->accept();
+        });
+    }
+
 }
