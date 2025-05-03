@@ -1,5 +1,5 @@
-#include "net/tcp_client.h"
-#include "net/tcp_server.h"
+#include "bendio/net/tcp_client.h"
+#include "bendio/net/tcp_server.h"
 
 #include <arpa/inet.h>
 #include <iostream>

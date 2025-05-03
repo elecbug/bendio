@@ -3,16 +3,14 @@ project(bendio)
 
 set(CMAKE_CXX_STANDARD 17)
 
-include_directories(${PROJECT_SOURCE_DIR}/public_include)
 include_directories(${PROJECT_SOURCE_DIR}/include)
 include_directories(${PROJECT_SOURCE_DIR}/impl)
 
 file(GLOB_RECURSE SRC_FILES CONFIGURE_DEPENDS src/*.cpp)
 
 add_library(bendio STATIC ${SRC_FILES})
-target_include_directories(bendio PUBLIC $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/public_include> $<INSTALL_INTERFACE:include>)
-target_include_directories(bendio PRIVATE ${PROJECT_SOURCE_DIR}/include)
-target_include_directories(bendio PRIVATE ${PROJECT_SOURCE_DIR}/impl)
+target_include_directories(bendio PUBLIC $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include> $<INSTALL_INTERFACE:include>)
+target_include_directories(bendio PUBLIC $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/impl> $<INSTALL_INTERFACE:include>)
 
 add_executable(test test/test.cpp)
 target_link_libraries(test PRIVATE bendio)
@@ -21,7 +19,8 @@ target_link_libraries(test PRIVATE bendio)
 install(TARGETS bendio EXPORT bendioTargets ARCHIVE DESTINATION lib INCLUDES DESTINATION include)
 
 # Install public headers
-install(DIRECTORY public_include/ DESTINATION include)
+install(DIRECTORY include/ DESTINATION include)
+install(DIRECTORY impl/ DESTINATION include)
 
 # Export the targets to a file
 install(EXPORT bendioTargets FILE bendioTargets.cmake NAMESPACE bendio:: DESTINATION lib/cmake/bendio)

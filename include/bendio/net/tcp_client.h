@@ -1,8 +1,8 @@
 #pragma once
 
-#include "async/task.h"
-#include "net/type/bytes.h"
-#include "net/type/ip_end_point.h"
+#include "bendio/async/task.h"
+#include "bendio/net/type/bytes.h"
+#include "bendio/net/type/ip_end_point.h"
 
 #include <string>
 

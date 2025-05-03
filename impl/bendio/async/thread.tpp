@@ -1,6 +1,6 @@
 #pragma once
 
-#include "async/thread.h"
+#include "bendio/async/thread.h"
 
 namespace async {
 

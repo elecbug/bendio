@@ -96,5 +96,5 @@ namespace async {
 }
 
 // Include implementation of template functions
-#include "async/task.tpp"
-#include "async/task_void.tpp"
+#include "bendio/async/task.tpp"
+#include "bendio/async/task_void.tpp"
