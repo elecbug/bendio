@@ -6,7 +6,6 @@
 #include <iostream>
 
 namespace async {
-
     template<typename F, typename... Args>
     Task<void>::Task(F&& f, Args&&... args) {
         auto bound_func = std::bind(std::forward<F>(f), std::forward<Args>(args)...);
@@ -80,5 +79,4 @@ namespace async {
             _t.detach();
         } 
     }
-
 }

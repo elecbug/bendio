@@ -1,7 +1,6 @@
 #include "bendio/net/type/bytes.h"
 
 namespace net {
-
     bytes::bytes() : _data(nullptr), _size(0) {}
 
     bytes::bytes(const char* data, size_t len) {
@@ -76,5 +75,4 @@ namespace net {
     std::string bytes::to_string() const {
         return std::string(_data, _size);
     }
-
 }

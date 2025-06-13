@@ -3,7 +3,6 @@
 #include <string>
 
 namespace net {
-
     // Represents an IP endpoint (IP address + port)
     class IPEndPoint {
     public:
@@ -32,5 +31,4 @@ namespace net {
         std::string _ip;  // IP address
         int _port;        // Port number
     };
-
 }

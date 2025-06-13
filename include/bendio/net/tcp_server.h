@@ -3,7 +3,6 @@
 #include "bendio/net/tcp_client.h"
 
 namespace net {
-
     // A simple TCP server class that listens for and accepts client connections
     class TcpServer {
     public:
@@ -25,5 +24,4 @@ namespace net {
         int _server_fd;  // File descriptor for the server socket
         int _port;       // Listening port
     };
-
 }

@@ -8,7 +8,6 @@
 #include <unistd.h>
 
 namespace net {
-
     TcpServer::TcpServer() : _server_fd(-1), _port(0) {}
 
     void TcpServer::start(int port) {
@@ -69,5 +68,4 @@ namespace net {
             return this->accept();
         });
     }
-
 }

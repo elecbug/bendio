@@ -8,7 +8,6 @@
 #include <thread>
 
 namespace async {
-
     // Task for returning a value of type T
     template<typename T> 
     class Task {
@@ -92,7 +91,6 @@ namespace async {
         std::atomic<bool> _canceled{false}; // Indicates if task was canceled
         std::atomic<bool> _done{false};     // Indicates if task finished
     };
-
 }
 
 // Include implementation of template functions

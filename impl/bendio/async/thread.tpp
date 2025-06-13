@@ -3,7 +3,6 @@
 #include "bendio/async/thread.h"
 
 namespace async {
-
     template<typename F, typename... Args>
     Thread::Thread(F&& f, Args&&... args) {
         _task = std::bind(std::forward<F>(f), std::forward<Args>(args)...);

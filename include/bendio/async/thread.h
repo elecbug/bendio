@@ -6,7 +6,6 @@
 #include <thread>
 
 namespace async {
-
     // High-level wrapper around std::thread with task binding and locking utilities
     class Thread {
     public:
@@ -46,7 +45,6 @@ namespace async {
         std::function<void()> _task;  // Bound task to be executed in thread
         std::thread _t;               // Internal thread object
     };
-
 }
 
 // Include template definitions

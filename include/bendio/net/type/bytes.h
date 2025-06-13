@@ -5,7 +5,6 @@
 #include <string>
 
 namespace net {
-
     // A simple dynamic byte buffer class for managing raw data
     class bytes {
     public:
@@ -55,5 +54,4 @@ namespace net {
         // Internal helper to deallocate memory
         void cleanup();
     };
-
 }

@@ -7,7 +7,6 @@
 #include <string>
 
 namespace net {
-
     // A simple TCP client class for connecting to a server and sending/receiving data
     class TcpClient {
     public:
@@ -56,5 +55,4 @@ namespace net {
         // Internal connection logic (used by both connect overloads)
         void inner_connect();
     };
-
 }

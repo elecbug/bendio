@@ -6,7 +6,6 @@
 #include <iostream>
 
 namespace async {
-
     template<typename T> 
     template<typename F, typename... Args>
     Task<T>::Task(F&& f, Args&&... args) {
@@ -89,5 +88,4 @@ namespace async {
             _t.detach();
         }
     }
-
 }

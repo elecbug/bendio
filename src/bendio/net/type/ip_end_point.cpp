@@ -3,7 +3,6 @@
 #include <sstream>
 
 namespace net {
-
     IPEndPoint::IPEndPoint() : _ip("0.0.0.0"), _port(0) {}
 
     IPEndPoint::IPEndPoint(const std::string& ip, int port) : _ip(ip), _port(port) {}
@@ -33,5 +32,4 @@ namespace net {
     std::string IPEndPoint::to_string() const {
         return _ip + ":" + std::to_string(_port);
     }
-
 }
